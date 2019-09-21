@@ -1,9 +1,17 @@
 {
     "name": "weesnerdevelopment",
     "version": 2,
-    "alias": ["weesnerdevelopment.com", "prod"],
+    "alias": "weesnerdevelopment.com",
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "index.js"
+        }
+    ],
     "builds": [
-        { "src": "*.html", "use": "@now/static" },
-        { "src": "*.js", "use": "@now/node" }
+        {
+            "src": "*/*.js",
+            "use": "@now/node"
+        }
     ]
 }
