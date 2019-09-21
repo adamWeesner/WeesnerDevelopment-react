@@ -1,0 +1,8 @@
+export const home = '/'
+export const taxFetcher = '/tax-fetcher'
+export const trackYourTime = '/track-your-time'
+export const allTaxes = taxFetcher + '/all'
+export const federalIncomeTax = taxFetcher + '/federal-income-tax'
+export const medicare = taxFetcher + '/medicare'
+export const socialSecurity = taxFetcher + '/social-security'
+export const taxWithholding = taxFetcher + '/tax-withholding'
