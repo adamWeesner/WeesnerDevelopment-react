@@ -1,0 +1,9 @@
+{
+    "name": "weesnerdevelopment",
+    "version": 2,
+    "alias": ["weesnerdevelopment.com", "prod"],
+    "builds": [
+        { "src": "*.html", "use": "@now/static" },
+        { "src": "*.js", "use": "@now/node" }
+    ]
+}
