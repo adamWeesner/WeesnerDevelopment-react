@@ -2,12 +2,6 @@
     "name": "weesnerdevelopment",
     "version": 2,
     "alias": "weesnerdevelopment.com",
-    "routes": [
-        {
-            "src": "src/(.*)",
-            "dest": "index.js"
-        }
-    ],
     "builds": [
         {
             "src": "*/*.js",
