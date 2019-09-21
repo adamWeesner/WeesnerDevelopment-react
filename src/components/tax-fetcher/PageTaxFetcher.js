@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { AppBar, Tabs, Tab } from '@material-ui/core'
-import { items, organizeTaxData } from '../../utils/utils'
+import { items, organizeTaxData, years } from '../../utils/utils'
 import TaxItemContainer from './TaxItemContainer'
 import { readAll } from '../../middleware/firebase-firestore'
 
@@ -33,11 +33,15 @@ class PageTaxFetcher extends Component {
     }
 
     fetchTaxData = () => {
-        readAll('2019', (items) => {
-            this.setState({
-                taxesNeedUpdate: false,
-                taxData: organizeTaxData(items)
+        const taxYears = []
+        for (const year in years) {
+            readAll(year, (items) => {
+                taxYears.push(items)
             })
+        }
+        this.setState({
+            taxesNeedUpdate: false,
+            taxData: organizeTaxData(taxYears)
         })
     }
 
@@ -73,8 +77,8 @@ class PageTaxFetcher extends Component {
                     taxData={taxData}
                     taxesNeedUpdate={this.updateTaxes} />
             </div>
-            )
-        }
+        )
     }
-    
+}
+
 export default withStyles(styles)(PageTaxFetcher)
