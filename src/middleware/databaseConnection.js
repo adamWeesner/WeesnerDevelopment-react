@@ -1,4 +1,4 @@
-const BACKEND_BASE_URL = "http://0.0.0.0:23567"
+const BACKEND_BASE_URL = "http://api.weesnerDevelopment.com"
 
 export async function addItem(itemType, info) {
     let request = await fetch(`${BACKEND_BASE_URL}/${itemType}`, {
