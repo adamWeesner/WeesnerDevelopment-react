@@ -10,9 +10,9 @@ const styles = theme => ({
         justifyContent: 'center'
     },
     card: {
-        marginBottom: theme.spacing.unit * 3,
-        marginStart: theme.spacing.unit * 3,
-        marginEnd: theme.spacing.unit * 3
+        marginBottom: theme.spacing() * 3,
+        marginLeft: theme.spacing() * 3,
+        marginEnd: theme.spacing() * 3
     },
 })
 
@@ -20,16 +20,18 @@ class ItemSocialSecurity extends Component {
     render() {
         const { classes, data } = this.props
 
+        const itemData = data[0]
+
         return (
             <div className={classes.center}>
                 <Card className={classes.card}>
                     <CardContent>
                         <div>
                             <Typography variant='h6'>
-                                Percent: {data.percent}%
+                                Percent: {itemData.percent}%
                             </Typography>
                             <Typography variant='h6'>
-                                Limit: {Currency(data.limit)}
+                                Limit: {Currency(itemData.limit)}
                             </Typography>
                         </div>
                     </CardContent>
@@ -40,7 +42,7 @@ class ItemSocialSecurity extends Component {
 }
 
 ItemSocialSecurity.propTypes = {
-    data: PropTypes.object.isRequired
+    data: PropTypes.array.isRequired
 }
 
 export default withStyles(styles)(ItemSocialSecurity)

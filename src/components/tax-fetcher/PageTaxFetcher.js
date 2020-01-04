@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { AppBar, Tabs, Tab } from '@material-ui/core'
-import { items, organizeTaxData, years } from '../../utils/utils'
+import { items, organizeTaxData } from '../../utils/utils'
 import TaxItemContainer from './TaxItemContainer'
-import { readAll } from '../../middleware/firebase-firestore'
+import { readAll } from '../../middleware/databaseConnection'
 
 const styles = theme => ({
     root: {
@@ -32,16 +32,11 @@ class PageTaxFetcher extends Component {
             })
     }
 
-    fetchTaxData = () => {
-        const taxYears = []
-        for (const year in years) {
-            readAll(year, (items) => {
-                taxYears.push(items)
-            })
-        }
+    fetchTaxData = async () => {
+        console.log(await readAll())
         this.setState({
             taxesNeedUpdate: false,
-            taxData: organizeTaxData(taxYears)
+            taxData: organizeTaxData(await readAll())
         })
     }
 

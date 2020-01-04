@@ -5,12 +5,12 @@ import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import { TextField, Dialog, DialogContent, Button } from '@material-ui/core'
 import { DialogTitle, InputAdornment, Typography } from '@material-ui/core'
 import { years, NumberFormatCustom } from '../../../utils/utils'
-import { addItem } from '../../../middleware/firebase-firestore'
+import { addItem } from '../../../middleware/databaseConnection'
 
 const styles = theme => ({
     textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         maxWidth: 120
     },
     horizontal: {
@@ -18,17 +18,17 @@ const styles = theme => ({
         minWidth: 400
     },
     formControl: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         minWidth: 120,
     },
     button: {
         marginTop: 20,
-        marginStart: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginBottom: theme.spacing(),
     },
     typography: {
-        marginStart: theme.spacing.unit,
-        marginTop: theme.spacing.unit * 2.5,
+        marginLeft: theme.spacing(),
+        marginTop: theme.spacing() * 2.5,
         fontSize: 16
     }
 })

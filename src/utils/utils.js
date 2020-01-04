@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import NumberFormat from 'react-number-format'
-import { Medicare } from '../objects/Medicare'
-import { SocialSecurity } from '../objects/SocialSecurity'
-import { TaxWithholding } from '../objects/TaxWithholding'
-import { FederalIncomeTax } from '../objects/FederalIncomeTax'
 
 function* range(start, end) {
     yield start;
@@ -57,14 +53,15 @@ export function organizeTaxData(taxData) {
         if (sortedData.hasOwnProperty(taxType)) {
             const taxData = sortedData[taxType]
 
-            if (taxType === medicareDB)
-                medicare.push(new Medicare(taxData))
-            else if (taxType === socialSecurityDB)
-                socialSecurity.push(new SocialSecurity(taxData))
-            else if (taxType === taxWithholdingDB)
-                socialSecurity.push(new TaxWithholding(taxData))
-            else if (taxType === federalIncomeTaxDB)
-                socialSecurity.push(new FederalIncomeTax(taxData))
+            if (taxData.medicare !== undefined)
+                medicare.push(taxData.medicare)
+            else if (taxData.socialSecurity !== undefined)
+                socialSecurity.push(taxData.socialSecurity)
+            else if (taxData.taxWithholding !== undefined)
+                taxWithholding.push(taxData.taxWithholding)
+            else if (taxData.federalIncomeTax !== undefined){
+                federalIncomeTax.push(taxData.federalIncomeTax)
+            }
         }
     }
 
@@ -76,11 +73,6 @@ export function organizeTaxData(taxData) {
     return taxItems
 }
 
-const medicareDB = 'medicare'
-const socialSecurityDB = 'social-security'
-const federalIncomeTaxDB = 'federal-income-tax'
-const taxWithholdingDB = 'tax-withholding'
-
 export const items = [
     'Federal Income Tax',
     'Medicare',
@@ -91,13 +83,13 @@ export const years = [
     2019, ...range(2018, 1990)
 ]
 export const maritalStatuses = [
-    'single',
-    'married',
-    'separate'
+    'Single',
+    'Married',
+    'Separate'
 ]
 export const withholdingTypes = [
-    'general',
-    'nonResidents'
+    'General',
+    'MonResidents'
 ]
 export const payPeriods = [
     { key: 'Weekly', value: 'Weekly' },

@@ -20,9 +20,9 @@ const styles = theme => ({
         minWidth: 400
     },
     button: {
-        marginTop: theme.spacing.unit * 3,
-        marginStart: theme.spacing.unit * 3,
-        marginBottom: theme.spacing.unit,
+        marginTop: theme.spacing() * 3,
+        marginLeft: theme.spacing() * 3,
+        marginBottom: theme.spacing(),
     },
 })
 
@@ -70,47 +70,115 @@ class TaxItemContainer extends Component {
 
     displayYearData = (data) => {
         if (data !== undefined) {
-            return data.map(item => {
+            let years = []
+
+            data[0].forEach(item => {
+                if (years.length === 0) {
+                    years[0] = [item]
+                } else {
+                    for (let y = 0; y < years.length; y++) {
+                        if(years[y].includes(item)) return
+
+                        if (item.year === years[y][0].year)
+                            years[y].push(item)
+                        else if(y === years.length - 1)
+                        years[years.length] = [item]
+                    }
+                }
+            })
+
+            const sortedYears = years.sort((a, b) => {
+                if (a[0].year < b[0].year) return 1
+                if (a[0].year > b[0].year) return -1
+                return 0
+            })
+
+            console.log("sorted", sortedYears)
+
+            return sortedYears.map(items => {
                 return (
-                    <div key={item.year + item.data}>
+                    <div key={items.year + items}>
                         <Typography
                             variant='h5'
                             align='center'
                             gutterBottom={true}
                         >
-                            {item.year}
-                        </Typography >
-                        {this.displayEachData(item)}
+                            {items[0].year}
+                        </Typography>
+                        {this.displayEachData(items)}
                     </div>
                 )
             })
         }
     }
 
-    displayEachData = (yearData) => {
+    displayFederalType = (typeData) => {
+        return <ItemFederalIncomeTax key={typeData[0].year + typeData[0].maritalStatus} data={typeData} type={typeData[0].maritalStatus} />
+    }
+
+    displayWithholdingType = (typeData) => {
+        return <ItemTaxWithholding key={typeData[0].year + typeData[0].type} type={typeData[0].type} data={typeData} />
+    }
+
+    displayEachData = (data) => {
         let itemToDisplay
+        let types = []
+        let items = []
+
         switch (this.props.type) {
             case 'Federal Income Tax':
+                data.forEach(item => {
+                    if (types.length === 0) {
+                        types[0] = [item]
+                    } else {
+                        for (let y = 0; y < types.length; y++) {
+                            if(types[y].includes(item)) return
+
+                            if (item.maritalStatus === types[y][0].maritalStatus){
+                                types[y].push(item)
+                            } else if (y === types.length - 1)
+                                types[types.length] = [item]
+                        }
+                    }
+                })
+
+                for(const type in types)
+                    items.push(this.displayFederalType(types[type]))
                 itemToDisplay = (
-                    <div className={this.props.classes.horizontal} key={yearData.year}>
-                        <ItemFederalIncomeTax key={yearData.year + '-single'} data={yearData.single} type='Single' />
-                        <ItemFederalIncomeTax key={yearData.year + '-married'} data={yearData.married} type='Married' />
+                    <div className={this.props.classes.horizontal} key={data.year}>
+                        {items}
                     </div>
                 )
                 break
             case 'Medicare':
-                itemToDisplay = <ItemMedicare data={yearData} />
+                itemToDisplay = <ItemMedicare key={data[0].year + data[0].percent} data={data} />
                 break
             case 'Social Security':
-                itemToDisplay = <ItemSocialSecurity data={yearData} />
+                itemToDisplay = <ItemSocialSecurity key={data[0].year + data[0].amount} data={data} />
                 break
             case 'Tax Withholding':
-                itemToDisplay = (
-                    <div className={this.props.classes.horizontal} key={yearData.year}>
-                        <ItemTaxWithholding key={yearData.year + '-general'} type='General' data={yearData.general} />
-                        <ItemTaxWithholding key={yearData.year + '-nonResidents'} type='NonResidents' data={yearData.nonResidents} />
-                    </div>
-                )
+                    data.forEach(item => {
+                        if (types.length === 0) {
+                            types[0] = [item]
+                        } else {
+                            for (let y = 0; y < types.length; y++) {
+                                if(types[y].includes(item)) return
+    
+                                if (item.type === types[y][0].type){
+                                    types[y].push(item)
+                                } else if (y === types.length - 1)
+                                    types[types.length] = [item]
+                            }
+                        }
+                    })
+    
+                    for(const type in types)
+                        items.push(this.displayWithholdingType(types[type]))
+                    itemToDisplay = (
+                        <div className={this.props.classes.horizontal} key={data.year}>
+                            {items}
+                        </div>
+                    )
                 break
             default:
                 itemToDisplay = undefined

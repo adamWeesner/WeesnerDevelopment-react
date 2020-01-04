@@ -6,12 +6,12 @@ import { TextField, Dialog, DialogContent, Button } from '@material-ui/core'
 import { DialogTitle, InputAdornment } from '@material-ui/core'
 import { years, withholdingTypes, payPeriods, NumberFormatCustom } from '../../../utils/utils'
 import { taxWithholding } from '../../../utils/routes'
-import { addItem } from '../../../middleware/firebase-firestore'
+import { addItem } from '../../../middleware/databaseConnection'
 
 const styles = theme => ({
     textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginRight: theme.spacing(),
         maxWidth: 120
     },
     horizontal: {
@@ -19,13 +19,13 @@ const styles = theme => ({
         minWidth: 450
     },
     formControl: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(),
         minWidth: 120,
     },
     button: {
         marginTop: 20,
-        marginStart: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
+        marginLeft: theme.spacing(),
+        marginBottom: theme.spacing(),
     },
 })
 

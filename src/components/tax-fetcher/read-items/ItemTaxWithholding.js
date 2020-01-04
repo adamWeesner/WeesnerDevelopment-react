@@ -10,9 +10,9 @@ const styles = theme => ({
         justifyContent: 'center'
     },
     card: {
-        marginBottom: theme.spacing.unit * 3,
-        marginStart: theme.spacing.unit * 3,
-        marginEnd: theme.spacing.unit * 3,
+        marginBottom: theme.spacing() * 3,
+        marginLeft: theme.spacing() * 3,
+        marginEnd: theme.spacing() * 3,
         width: 275
     },
 })
@@ -23,10 +23,10 @@ class ItemTaxWithholding extends Component {
 
         for (const period in sortedData) {
             if (sortedData.hasOwnProperty(period)) {
-                const amount = sortedData[period]
+                const data = sortedData[period]
                 items.push(
-                    <Typography key={period} variant='h6'>
-                        {period}: {Currency(amount)}
+                    <Typography key={data.year + data.payPeriod + data.amount} variant='h6'>
+                        {data.payPeriod}: {Currency(data.amount)}
                     </Typography>
                 )
             }

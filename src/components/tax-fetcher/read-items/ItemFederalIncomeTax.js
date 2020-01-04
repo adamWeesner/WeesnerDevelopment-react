@@ -10,9 +10,9 @@ const styles = theme => ({
         justifyContent: 'center'
     },
     card: {
-        marginBottom: theme.spacing.unit * 3,
-        marginStart: theme.spacing.unit * 3,
-        marginEnd: theme.spacing.unit * 3,
+        marginBottom: theme.spacing() * 3,
+        marginLeft: theme.spacing() * 3,
+        marginEnd: theme.spacing() * 3,
         width: 325
     },
 })
@@ -25,41 +25,38 @@ class ItemFederalncomeTax extends Component {
         for (const periodData in sortedData) {
             if (sortedData.hasOwnProperty(periodData)) {
                 const period = sortedData[periodData]
-                for (const periodInfo in period) {
-                    const info = period[periodInfo]
-                    const over = info.over
-                    const notOver = info.notOver
-                    const plus = info.plus
-                    const percent = info.percent
-                    const nonTaxable = info.nonTaxable
+                const over = Currency(period.over)
+                const notOver = Currency(period.notOver)
+                const plus = Currency(period.plus)
+                const percent = period.percent
+                const nonTaxable = Currency(period.nonTaxable)
 
-                    const totalKey = over + notOver + plus + percent + nonTaxable
+                const totalKey = over + notOver + plus + percent + nonTaxable
 
-                    let periodName;
-                    if (previousPeriod === periodData) {
-                        periodName = ""
-                    } else {
-                        previousPeriod = periodData
-                        periodName =
-                            <div>
-                                <Typography key={periodData} variant='h6' align='center'><u>{periodData}</u></Typography>
-                                <Typography key={periodData + "hint"} variant='h6'>When n:</Typography>
-                            </div>
-                    }
-
-                    items.push(
-                        <div key={periodData + totalKey + '-div'}>
-                            {periodName}
-                            <Typography key={periodData + totalKey + '-desc'} variant='h6'>
-                                {over} > n ≤ {notOver}
-                            </Typography>
-                            <Typography key={periodData + totalKey + '-formula'} variant='h6'>
-                                ((n - {nonTaxable}) + {plus}) * {(percent * .01).toFixed(2)}
-                            </Typography>
-                            <br />
+                let periodName;
+                if (previousPeriod === period.payPeriod) {
+                    periodName = ""
+                } else {
+                    previousPeriod = period.payPeriod
+                    periodName =
+                        <div>
+                            <Typography key={period} variant='h6' align='center'><u>{period.payPeriod}</u></Typography>
+                            <Typography key={period + "hint"} variant='h6'>When n:</Typography>
                         </div>
-                    )
                 }
+
+                items.push(
+                    <div key={periodData + totalKey + '-div'}>
+                        {periodName}
+                        <Typography key={periodData + totalKey + '-desc'} variant='h6'>
+                            {over} > n ≤ {notOver}
+                        </Typography>
+                        <Typography key={periodData + totalKey + '-formula'} variant='h6'>
+                            ((n - {nonTaxable}) + {plus}) * {percent}%
+                        </Typography>
+                        <br />
+                    </div>
+                )
             }
         }
 
@@ -70,8 +67,8 @@ class ItemFederalncomeTax extends Component {
         const { classes, data, type } = this.props
 
         const sortedData = data.sort((a, b) => {
-            if (a.amount < b.amount) return -1
-            if (a.amount > b.amount) return 1
+            if (a.percent < b.percent) return -1
+            if (a.percent > b.percent) return 1
             return 0
         })
 

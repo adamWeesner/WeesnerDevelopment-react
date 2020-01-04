@@ -10,15 +10,33 @@ const styles = theme => ({
         justifyContent: 'center'
     },
     card: {
-        marginBottom: theme.spacing.unit * 3,
-        marginStart: theme.spacing.unit * 3,
-        marginEnd: theme.spacing.unit * 3
+        marginBottom: theme.spacing() * 3,
+        marginLeft: theme.spacing() * 3,
+        marginEnd: theme.spacing() * 3
     },
 })
 
 class ItemMedicare extends Component {
+    limits = (data) => {
+        const limits = data.limits
+        let limitViews = []
+
+        for (const limit in limits) {
+            const item = limits[limit]
+            limitViews.push(
+                <Typography variant='h6' key={item.amount + item.year}>
+                    {item.maritalStatus}: {Currency(item.amount)}
+                </Typography>
+            )
+        }
+
+        return limitViews
+    }
+
     render() {
         const { classes, data } = this.props
+
+        const itemData = data[0]
 
         return (
             <div className={classes.center}>
@@ -26,23 +44,15 @@ class ItemMedicare extends Component {
                     <CardContent>
                         <div>
                             <Typography variant='h6'>
-                                Percent: {data.percent}%
+                                Percent: {itemData.percent}%
                             </Typography>
                             <Typography variant='h6'>
-                                Additional: {data.additional}%
+                                Additional: {itemData.additionalPercent}%
                             </Typography>
                             <Typography align='center' variant='h6'>
                                 Limits
                             </Typography>
-                            <Typography variant='h6'>
-                                Married: {Currency(data.limits.married)}
-                            </Typography>
-                            <Typography variant='h6'>
-                                Separated: {Currency(data.limits.separate)}
-                            </Typography>
-                            <Typography variant='h6'>
-                                Other (Single): {Currency(data.limits.single)}
-                            </Typography>
+                            {this.limits(itemData)}
                         </div>
                     </CardContent>
                 </Card>
@@ -52,7 +62,7 @@ class ItemMedicare extends Component {
 }
 
 ItemMedicare.propTypes = {
-    data: PropTypes.object.isRequired
+    data: PropTypes.array.isRequired
 }
 
 export default withStyles(styles)(ItemMedicare)
