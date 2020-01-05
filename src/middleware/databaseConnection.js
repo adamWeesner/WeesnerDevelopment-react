@@ -1,4 +1,6 @@
-const BACKEND_BASE_URL = "http://api.weesnerDevelopment.com"
+import { isLocalhost} from '../serviceWorker'
+
+const BACKEND_BASE_URL = isLocalhost ? "http://0.0.0.0:23567" : "http://api.weesnerDevelopment.com"
 
 export async function addItem(itemType, info) {
     let request = await fetch(`${BACKEND_BASE_URL}/${itemType}`, {

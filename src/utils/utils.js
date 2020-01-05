@@ -2,17 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import NumberFormat from 'react-number-format'
 
+const currentYear = new Date().getFullYear()
+
 function* range(start, end) {
     yield start;
     if (start === end) return;
     yield* range(start - 1, end);
 }
 
-export function Currency(value) {
+function Currency(value) {
     return '$' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 }
 
-export function NumberFormatCustom(props) {
+function NumberFormatCustom(props) {
     const { inputRef, onChange, ...other } = props
 
     return (
@@ -36,7 +38,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired,
 }
 
-export function organizeTaxData(taxData) {
+function organizeTaxData(taxData) {
     const taxItems = []
     const federalIncomeTax = []
     const medicare = []
@@ -73,25 +75,29 @@ export function organizeTaxData(taxData) {
     return taxItems
 }
 
-export const items = [
+const items = [
     'Federal Income Tax',
     'Medicare',
     'Social Security',
     'Tax Withholding'
 ]
-export const years = [
-    2019, ...range(2018, 1990)
+
+const years = [
+    currentYear, ...range(currentYear - 1, 1990)
 ]
-export const maritalStatuses = [
+
+const maritalStatuses = [
     'Single',
     'Married',
     'Separate'
 ]
-export const withholdingTypes = [
+
+const withholdingTypes = [
     'General',
-    'MonResidents'
+    'NonResidents'
 ]
-export const payPeriods = [
+
+const payPeriods = [
     { key: 'Weekly', value: 'Weekly' },
     { key: 'Biweekly', value: 'Biweekly' },
     { key: 'Semimonthly', value: 'Semimonthly' },
@@ -101,3 +107,15 @@ export const payPeriods = [
     { key: 'Annual', value: 'Annual' },
     { key: 'Daily', value: 'Daily' }
 ]
+
+export {
+    payPeriods,
+    withholdingTypes,
+    maritalStatuses,
+    years,
+    items,
+    organizeTaxData,
+    NumberFormatCustom,
+    Currency,
+    currentYear
+}
