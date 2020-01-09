@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
-import { TextField, Dialog, DialogContent, Button } from '@material-ui/core'
-import { DialogTitle, InputAdornment } from '@material-ui/core'
-import { years, withholdingTypes, payPeriods, NumberFormatCustom } from '../../../utils/utils'
-import { taxWithholding } from '../../../utils/routes'
-import { addItem } from '../../../middleware/databaseConnection'
+import { Dialog, DialogContent, Button } from '@material-ui/core'
+import { DialogTitle } from '@material-ui/core'
+import CustomTextField from '../../CustomTextField'
+import { years, withholdingTypes, payPeriods, currentYear } from '../../../utils/utils'
+import { addItem, backendUrls } from '../../../middleware/databaseConnection'
 
 const styles = theme => ({
     textField: {
@@ -30,9 +30,9 @@ const styles = theme => ({
 })
 
 const stateDefault = {
-    year: 2019,
-    type: 'general',
-    payPeriod: 'weekly',
+    year: currentYear,
+    type: 'General',
+    payPeriod: 'Weekly',
     amount: undefined
 }
 
@@ -40,13 +40,11 @@ class AddFederalIncomeTax extends Component {
     state = stateDefault
 
     addToServer = () => {
-        const obj = {}
-        const item = {}
-        item[this.state.payPeriod] = Number(this.state.amount.replace(',', ''))
-        obj[this.state.type] = item
-
-        addItem(`${this.state.year}`, 'tax-withholding', {
-            obj
+        addItem(backendUrls.TaxWithholding, {
+            year: Number(this.state.year),
+            type: this.state.type,
+            payPeriod: this.state.payPeriod,
+            amount: Number(this.state.amount.replace(',', ''))
         }).then(_ => {
             this.setState(stateDefault)
             this.props.close()
@@ -99,10 +97,9 @@ class AddFederalIncomeTax extends Component {
                                 name='type'
                             >
                                 {
-                                    withholdingTypes.map(item => {
-                                        const readable = item.charAt(0).toUpperCase() + item.slice(1)
+                                    Object.values(withholdingTypes).map(item => {
                                         return <MenuItem key={item} value={item}>
-                                            {readable}
+                                            {item}
                                         </MenuItem>
                                     })
                                 }
@@ -118,28 +115,22 @@ class AddFederalIncomeTax extends Component {
                                 onChange={this.handleChange('payPeriod')}
                             >
                                 {
-                                    payPeriods.map(item => {
-                                        return <MenuItem key={item.key} value={item.key}>
-                                            {item.value}
+                                    Object.values(payPeriods).map(item => {
+                                        return <MenuItem key={item.index} value={item.name}>
+                                            {item.name}
                                         </MenuItem>
                                     })}
                             </Select>
                         </FormControl>
                     </div>
                     <div>
-                        <TextField
-                            error={amount === ''}
-                            InputProps={{
-                                inputComponent: NumberFormatCustom,
-                                startAdornment: <InputAdornment position='start'>$</InputAdornment>
-                            }}
+                        <CustomTextField
+                            item={amount}
                             name='amount'
                             label='Amount'
+                            money={true}
                             className={classes.textField}
-                            margin='normal'
-                            value={amount}
-                            onChange={this.handleChange('amount')}
-                        />
+                            handleChange={this.handleChange('amount')} />
                     </div>
                     <Button
                         variant='contained'

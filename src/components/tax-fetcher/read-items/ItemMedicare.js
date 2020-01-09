@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Card, CardContent, Typography } from '@material-ui/core'
-import { Currency } from '../../../utils/utils'
+import { Currency, maritalStatuses } from '../../../utils/utils'
 
 const styles = theme => ({
     center: {
@@ -21,7 +21,16 @@ class ItemMedicare extends Component {
         const limits = data.limits
         let limitViews = []
 
-        for (const limit in limits) {
+        const sortedLimits = limits.sort((a, b) => {
+            const aStatus = maritalStatuses[a.maritalStatus].index
+            const bStatus = maritalStatuses[b.maritalStatus].index
+
+            if (aStatus < bStatus) return -1
+            if (aStatus > bStatus) return 1
+            return 0
+        })
+
+        for (const limit in sortedLimits) {
             const item = limits[limit]
             limitViews.push(
                 <Typography variant='h6' key={item.amount + item.year}>

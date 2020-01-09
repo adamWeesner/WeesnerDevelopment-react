@@ -86,27 +86,27 @@ const years = [
     currentYear, ...range(currentYear - 1, 1990)
 ]
 
-const maritalStatuses = [
-    'Single',
-    'Married',
-    'Separate'
-]
+const maritalStatuses = Object.freeze({
+    Single: { index: 0, name: 'Single' },
+    Married: {index: 1, name: 'Married' },
+    Separate: { index: 2, name: 'Separate' }
+})
 
-const withholdingTypes = [
-    'General',
-    'NonResidents'
-]
+const withholdingTypes = Object.freeze({
+    General: 'General',
+    NonResident: 'NonResident'
+})
 
-const payPeriods = [
-    { key: 'Weekly', value: 'Weekly' },
-    { key: 'Biweekly', value: 'Biweekly' },
-    { key: 'Semimonthly', value: 'Semimonthly' },
-    { key: 'Monthly', value: 'Monthly' },
-    { key: 'Quarterly', value: 'Quarterly' },
-    { key: 'Semiannual', value: 'Semiannual' },
-    { key: 'Annual', value: 'Annual' },
-    { key: 'Daily', value: 'Daily' }
-]
+const payPeriods = Object.freeze({
+    Weekly: { index: 0, name: 'Weekly'},
+    Biweekly: { index: 1, name: 'Biweekly'},
+    Semimonthly: { index: 2, name: 'Semimonthly'},
+    Monthly: { index: 3, name: 'Monthly'},
+    Quarterly: { index: 4, name: 'Quarterly'},
+    Semiannual: { index: 5, name: 'Semiannual'},
+    Annual: { index: 6, name: 'Annual'},
+    Daily: { index: 7, name: 'Daily'}
+})
 
 export {
     payPeriods,

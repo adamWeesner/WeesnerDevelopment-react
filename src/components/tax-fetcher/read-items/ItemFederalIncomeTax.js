@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Card, CardContent, Typography } from '@material-ui/core'
-import { Currency } from '../../../utils/utils';
+import { Currency, payPeriods } from '../../../utils/utils';
 
 const styles = theme => ({
     center: {
@@ -11,13 +11,16 @@ const styles = theme => ({
     },
     card: {
         marginBottom: theme.spacing() * 3,
-        marginLeft: theme.spacing() * 3,
+        marginLeft: theme.spacing() * 1.5,
+        marginRight: theme.spacing() * 1.5,
         marginEnd: theme.spacing() * 3,
         width: 325
     },
 })
 
 class ItemFederalncomeTax extends Component {
+    keyStart = this.props.data.year + this.props.data.percent
+
     displaySortedData = (sortedData) => {
         const items = []
         let previousPeriod
@@ -31,8 +34,6 @@ class ItemFederalncomeTax extends Component {
                 const percent = period.percent
                 const nonTaxable = Currency(period.nonTaxable)
 
-                const totalKey = over + notOver + plus + percent + nonTaxable
-
                 let periodName;
                 if (previousPeriod === period.payPeriod) {
                     periodName = ""
@@ -40,18 +41,18 @@ class ItemFederalncomeTax extends Component {
                     previousPeriod = period.payPeriod
                     periodName =
                         <div>
-                            <Typography key={period} variant='h6' align='center'><u>{period.payPeriod}</u></Typography>
-                            <Typography key={period + "hint"} variant='h6'>When n:</Typography>
+                            <Typography variant='h6' align='center'><u>{period.payPeriod}</u></Typography>
+                            <Typography variant='h6'>When n:</Typography>
                         </div>
                 }
 
                 items.push(
-                    <div key={periodData + totalKey + '-div'}>
+                    <div key={this.keyStart + period + periodData + '-div'}>
                         {periodName}
-                        <Typography key={periodData + totalKey + '-desc'} variant='h6'>
+                        <Typography variant='h6'>
                             {over} > n ≤ {notOver}
                         </Typography>
-                        <Typography key={periodData + totalKey + '-formula'} variant='h6'>
+                        <Typography variant='h6'>
                             ((n - {nonTaxable}) + {plus}) * {percent}%
                         </Typography>
                         <br />
@@ -72,6 +73,15 @@ class ItemFederalncomeTax extends Component {
             return 0
         })
 
+        const periodSorted = sortedData.sort((a, b) => {
+            const aPeriod = payPeriods[a.payPeriod].index
+            const bPeriod = payPeriods[b.payPeriod].index
+
+            if (aPeriod < bPeriod) return -1
+            if (aPeriod > bPeriod) return 1
+            return 0
+        })
+
         return (
             <div className={classes.center}>
                 <Card className={classes.card}>
@@ -81,7 +91,7 @@ class ItemFederalncomeTax extends Component {
                                 {type}
                             </Typography>
 
-                            {this.displaySortedData(sortedData)}
+                            {this.displaySortedData(periodSorted)}
                         </div>
                     </CardContent>
                 </Card>

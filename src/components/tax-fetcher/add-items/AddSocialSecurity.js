@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
-import { TextField, Dialog, DialogContent, Button } from '@material-ui/core'
-import { DialogTitle, InputAdornment } from '@material-ui/core'
-import { years, NumberFormatCustom } from '../../../utils/utils'
-import { socialSecurity } from '../../../utils/routes'
-import { addItem } from '../../../middleware/databaseConnection'
+import { Dialog, DialogContent, Button } from '@material-ui/core'
+import { DialogTitle } from '@material-ui/core'
+import CustomTextField from '../../CustomTextField'
+import { years, currentYear } from '../../../utils/utils'
+import { addItem, backendUrls } from '../../../middleware/databaseConnection'
 
 const styles = theme => ({
     textField: {
@@ -30,8 +30,8 @@ const styles = theme => ({
 })
 
 const stateDefault = {
-    year: 2019,
-    percent: 6.2,
+    year: currentYear,
+    percent: "6.2",
     limit: undefined
 }
 
@@ -39,7 +39,8 @@ class AddSocialSecurity extends Component {
     state = stateDefault
 
     addToServer = () => {
-        addItem(`${this.state.year}`, 'social-security', {
+        addItem(backendUrls.SocialSecurity, {
+            year: Number(this.state.year),
             percent: Number(this.state.percent),
             limit: Number(this.state.limit.replace(',', ''))
         }).then(_ => {
@@ -84,31 +85,19 @@ class AddSocialSecurity extends Component {
                         </Select>
                     </FormControl>
                     <div className={classes.horizontal}>
-                        <TextField
-                            error={percent === ''}
-                            InputLabelProps={{ shrink: true }}
-                            InputProps={{ endAdornment: <InputAdornment position='end'>%</InputAdornment> }}
+                        <CustomTextField
+                            item={percent}
                             name='percent'
                             label='Percent'
-                            type='number'
                             className={classes.textField}
-                            margin='normal'
-                            value={percent}
-                            onChange={this.handleChange('percent')}
-                        />
-                        <TextField
-                            error={limit === ''}
-                            InputProps={{
-                                inputComponent: NumberFormatCustom,
-                                startAdornment: <InputAdornment position='start'>$</InputAdornment>,
-                            }}
+                            handleChange={this.handleChange('percent')} />
+                        <CustomTextField
+                            item={limit}
                             name='limit'
                             label='Limit'
+                            money={true}
                             className={classes.textField}
-                            margin='normal'
-                            value={limit}
-                            onChange={this.handleChange('limit')}
-                        />
+                            handleChange={this.handleChange('limit')} />
                     </div>
                     <Button
                         variant='contained'

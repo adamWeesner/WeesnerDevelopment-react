@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import PageTrackYourTime from './PageTrackYourTime'
 import PageTaxFetcher from './tax-fetcher/PageTaxFetcher';
 
-const drawerWidth = 240;
+const drawerWidth = 160;
 
 const styles = themed => ({
     root: {
@@ -25,7 +25,6 @@ const styles = themed => ({
     },
     content: {
         flexGrow: 1,
-        //padding: themed.spacing.unit * 3,
     },
     toolbar: themed.mixins.toolbar,
 });
@@ -39,7 +38,7 @@ function NavBar(props) {
                 <CssBaseline />
                 <AppBar position="fixed" className={classes.appBar} elevation={0}>
                     <Toolbar>
-                        <Typography variant='h6' color='inherit'>WeeDev</Typography>
+                        <Typography variant='h6' color='inherit'>Weesner Development</Typography>
                     </Toolbar>
                 </AppBar>
                 <Drawer

@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
-import { TextField, Dialog, DialogContent, Button } from '@material-ui/core'
-import { DialogTitle, InputAdornment, Typography } from '@material-ui/core'
-import { years, NumberFormatCustom } from '../../../utils/utils'
-import { addItem } from '../../../middleware/databaseConnection'
+import { Dialog, DialogContent, Button } from '@material-ui/core'
+import { DialogTitle, Typography } from '@material-ui/core'
+import CustomTextField from '../../CustomTextField'
+import { years, currentYear, maritalStatuses } from '../../../utils/utils'
+import { addItem, backendUrls } from '../../../middleware/databaseConnection'
 
 const styles = theme => ({
     textField: {
@@ -34,9 +35,9 @@ const styles = theme => ({
 })
 
 const stateDefault = {
-    year: 2019,
-    percent: 1.45,
-    additional: 0.9,
+    year: currentYear,
+    percent: "1.45",
+    additional: "0.9",
     limitMarried: undefined,
     limitSeparated: undefined,
     limitOther: undefined
@@ -46,15 +47,27 @@ class AddMedicare extends Component {
     state = stateDefault
 
     addToServer = () => {
-        addItem(`${this.state.year}`, 'medicare', {
-            year: this.state.year,
+        addItem(backendUrls.Medicare, {
+            year: Number(this.state.year),
             percent: Number(this.state.percent),
-            additional: Number(this.state.additional),
-            limits: {
-                married: Number(this.state.limitMarried.replace(',', '')),
-                separate: Number(this.state.limitSeparated.replace(',', '')),
-                single: Number(this.state.limitOther.replace(',', ''))
-            }
+            additionalPercent: Number(this.state.additional),
+            limits: [
+                {
+                    year: Number(this.state.year),
+                    amount: Number(this.state.limitMarried.replace(',', '')),
+                    maritalStatus: `${maritalStatuses.Married}`
+                },
+                {
+                    year: Number(this.state.year),
+                    amount: Number(this.state.limitSeparated.replace(',', '')),
+                    maritalStatus: `${maritalStatuses.Separate}`
+                },
+                {
+                    year: Number(this.state.year),
+                    amount: Number(this.state.limitOther.replace(',', '')),
+                    maritalStatus: `${maritalStatuses.Single}`
+                }
+            ]
         }).then(_ => {
             this.setState(stateDefault)
             this.props.close()
@@ -66,6 +79,16 @@ class AddMedicare extends Component {
             ...this.state,
             [name]: event.target.value,
         });
+    }
+
+    createText = (item, name, label, money) => {
+        return <CustomTextField
+        item={item}
+        name={name}
+        label={label}
+        money={money}
+        className={this.props.classes.textField}
+        handleChange={this.handleChange(name)} />
     }
 
     render() {
@@ -97,70 +120,14 @@ class AddMedicare extends Component {
                         </Select>
                     </FormControl>
                     <div className={classes.horizontal}>
-                        <TextField
-                            error={percent === ''}
-                            InputLabelProps={{ shrink: true }}
-                            InputProps={{ endAdornment: <InputAdornment position='end'>%</InputAdornment> }}
-                            name='percent'
-                            label='Percent'
-                            type='number'
-                            className={classes.textField}
-                            margin='normal'
-                            value={percent}
-                            onChange={this.handleChange('percent')}
-                        />
-                        <TextField
-                            error={additional === ''}
-                            InputLabelProps={{ shrink: true }}
-                            InputProps={{ endAdornment: <InputAdornment position='end'>%</InputAdornment> }}
-                            name='additional'
-                            label='Additional'
-                            type='number'
-                            className={classes.textField}
-                            margin='normal'
-                            value={additional}
-                            onChange={this.handleChange('additional')}
-                        />
+                        {this.createText(percent, 'percent', 'Percent')}
+                        {this.createText(additional, 'additional', 'Additional')}
                     </div>
                     <Typography className={classes.typography}>Limits</Typography>
                     <div className={classes.horizontal}>
-                        <TextField
-                            InputProps={{
-                                inputComponent: NumberFormatCustom,
-                                startAdornment: <InputAdornment position='start'>$</InputAdornment>,
-                            }}
-                            name='limitMarried'
-                            label='Married'
-                            className={classes.textField}
-                            margin='normal'
-                            type='text'
-                            value={limitMarried}
-                            onChange={this.handleChange('limitMarried')}
-                        />
-                        <TextField
-                            InputProps={{
-                                inputComponent: NumberFormatCustom,
-                                startAdornment: <InputAdornment position='start'>$</InputAdornment>,
-                            }}
-                            name='limitSeparated'
-                            label='Seperated'
-                            className={classes.textField}
-                            margin='normal'
-                            value={limitSeparated}
-                            onChange={this.handleChange('limitSeparated')}
-                        />
-                        <TextField
-                            InputProps={{
-                                inputComponent: NumberFormatCustom,
-                                startAdornment: <InputAdornment position='start'>$</InputAdornment>,
-                            }}
-                            name='limitOther'
-                            label='Other'
-                            className={classes.textField}
-                            margin='normal'
-                            value={limitOther}
-                            onChange={this.handleChange('limitOther')}
-                        />
+                        {this.createText(limitOther, 'limitOther', 'Single', true)}
+                        {this.createText(limitMarried, 'limitMarried', 'Married', true)}
+                        {this.createText(limitSeparated, 'limitSeparated', 'Separated', true)}
                     </div>
 
                     <Button

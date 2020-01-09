@@ -5,7 +5,7 @@ import { Card, CardContent, Typography } from '@material-ui/core'
 
 const styles = theme => ({
     card: {
-        margin: theme.spacing.unit * 3,
+        margin: theme.spacing() * 3,
         minWidth: 275
     },
     title: {
@@ -19,9 +19,6 @@ class PageTrackYourTime extends Component {
     }
 
     initServer = () => {
-        fetch('/track-your-time')
-            .then(response => response.json())
-            .then(result => console.log(result))
     }
 
     render() {

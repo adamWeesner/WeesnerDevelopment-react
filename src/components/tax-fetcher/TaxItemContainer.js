@@ -77,12 +77,17 @@ class TaxItemContainer extends Component {
                     years[0] = [item]
                 } else {
                     for (let y = 0; y < years.length; y++) {
-                        if(years[y].includes(item)) return
+                        if (years[y].includes(item)) {
+                            break
+                        }
 
-                        if (item.year === years[y][0].year)
+                        if (item.year === years[y][0].year){
                             years[y].push(item)
-                        else if(y === years.length - 1)
-                        years[years.length] = [item]
+                            break
+                        }else if (y === years.length - 1){
+                            years[years.length] = [item]
+                            break
+                        }
                     }
                 }
             })
@@ -93,12 +98,11 @@ class TaxItemContainer extends Component {
                 return 0
             })
 
-            console.log("sorted", sortedYears)
-
-            return sortedYears.map(items => {
+            return sortedYears.map((items, i) => {
                 return (
-                    <div key={items.year + items}>
+                    <div key={items[0].year + [i] + "-label-div"}>
                         <Typography
+                            key={items[0].year + "-label"}
                             variant='h5'
                             align='center'
                             gutterBottom={true}
@@ -132,9 +136,9 @@ class TaxItemContainer extends Component {
                         types[0] = [item]
                     } else {
                         for (let y = 0; y < types.length; y++) {
-                            if(types[y].includes(item)) return
+                            if (types[y].includes(item)) return
 
-                            if (item.maritalStatus === types[y][0].maritalStatus){
+                            if (item.maritalStatus === types[y][0].maritalStatus) {
                                 types[y].push(item)
                             } else if (y === types.length - 1)
                                 types[types.length] = [item]
@@ -142,43 +146,43 @@ class TaxItemContainer extends Component {
                     }
                 })
 
-                for(const type in types)
+                for (const type in types)
                     items.push(this.displayFederalType(types[type]))
                 itemToDisplay = (
-                    <div className={this.props.classes.horizontal} key={data.year}>
+                    <div className={this.props.classes.horizontal} key={data[0].year + "-federal-income-tax"}>
                         {items}
                     </div>
                 )
                 break
             case 'Medicare':
-                itemToDisplay = <ItemMedicare key={data[0].year + data[0].percent} data={data} />
+                itemToDisplay = <ItemMedicare key={data[0].year + "-medicare"} data={data} />
                 break
             case 'Social Security':
-                itemToDisplay = <ItemSocialSecurity key={data[0].year + data[0].amount} data={data} />
+                itemToDisplay = <ItemSocialSecurity key={data[0].year + "-social-security"} data={data} />
                 break
             case 'Tax Withholding':
-                    data.forEach(item => {
-                        if (types.length === 0) {
-                            types[0] = [item]
-                        } else {
-                            for (let y = 0; y < types.length; y++) {
-                                if(types[y].includes(item)) return
-    
-                                if (item.type === types[y][0].type){
-                                    types[y].push(item)
-                                } else if (y === types.length - 1)
-                                    types[types.length] = [item]
-                            }
+                data.forEach(item => {
+                    if (types.length === 0) {
+                        types[0] = [item]
+                    } else {
+                        for (let y = 0; y < types.length; y++) {
+                            if (types[y].includes(item)) return
+
+                            if (item.type === types[y][0].type) {
+                                types[y].push(item)
+                            } else if (y === types.length - 1)
+                                types[types.length] = [item]
                         }
-                    })
-    
-                    for(const type in types)
-                        items.push(this.displayWithholdingType(types[type]))
-                    itemToDisplay = (
-                        <div className={this.props.classes.horizontal} key={data.year}>
-                            {items}
-                        </div>
-                    )
+                    }
+                })
+
+                for (const type in types)
+                    items.push(this.displayWithholdingType(types[type]))
+                itemToDisplay = (
+                    <div className={this.props.classes.horizontal} key={data[0].year + "-tax-withholding"}>
+                        {items}
+                    </div>
+                )
                 break
             default:
                 itemToDisplay = undefined
@@ -195,6 +199,7 @@ class TaxItemContainer extends Component {
         return (
             <div>
                 <Button
+                    key={ typeData }
                     variant="contained"
                     color="primary"
                     className={classes.button}

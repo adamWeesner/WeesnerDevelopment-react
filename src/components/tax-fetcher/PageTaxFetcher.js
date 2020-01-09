@@ -33,7 +33,6 @@ class PageTaxFetcher extends Component {
     }
 
     fetchTaxData = async () => {
-        console.log(await readAll())
         this.setState({
             taxesNeedUpdate: false,
             taxData: organizeTaxData(await readAll())

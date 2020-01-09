@@ -2,7 +2,14 @@ import { isLocalhost} from '../serviceWorker'
 
 const BACKEND_BASE_URL = isLocalhost ? "http://0.0.0.0:23567" : "http://api.weesnerDevelopment.com"
 
-export async function addItem(itemType, info) {
+const backendUrls = {
+    FederalIncomeTax: "federalIncomeTax",
+    SocialSecurity: "socialSecurity",
+    Medicare: "medicare",
+    TaxWithholding: "taxWithholding",
+}
+
+async function addItem(itemType, info) {
     let request = await fetch(`${BACKEND_BASE_URL}/${itemType}`, {
         method: "POST",
         headers: {
@@ -13,16 +20,23 @@ export async function addItem(itemType, info) {
     return await request.json()
 }
 
-export async function readAll() {
-    let medicare = await readAllType("medicare")
-    let socialSecurity = await readAllType("socialSecurity")
-    let federalIncomeTax = await readAllType("federalIncomeTax")
-    let taxWithholding = await readAllType("taxWithholding")
+async function readAll() {
+    let medicare = await readAllType(backendUrls.Medicare)
+    let socialSecurity = await readAllType(backendUrls.SocialSecurity)
+    let federalIncomeTax = await readAllType(backendUrls.FederalIncomeTax)
+    let taxWithholding = await readAllType(backendUrls.TaxWithholding)
 
     return [medicare, socialSecurity, federalIncomeTax, taxWithholding]
 }
 
-export async function readAllType(itemType) {
+async function readAllType(itemType) {
     let request = await fetch(`${BACKEND_BASE_URL}/${itemType}`)
     return await request.json()
+}
+
+export {
+    backendUrls,
+    addItem,
+    readAll,
+    readAllType
 }
