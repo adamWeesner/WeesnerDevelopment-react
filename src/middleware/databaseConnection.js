@@ -1,4 +1,4 @@
-const BACKEND_BASE_URL = process.env.NODE_ENV === 'production' ? "http://api.weesnerDevelopment.com" : 'http://0.0.0.0:23567'
+const BACKEND_BASE_URL = process.env.NODE_ENV === 'production' ? "http://api.weesnerDevelopment.com" : "http://0.0.0.0:23567"
 
 const backendUrls = {
     FederalIncomeTax: "federalIncomeTax",
@@ -28,6 +28,7 @@ async function readAll() {
 }
 
 async function readAllType(itemType) {
+    console.log(process.env.NODE_ENV, BACKEND_BASE_URL)
     let request = await fetch(`${BACKEND_BASE_URL}/${itemType}`)
     return await request.json()
 }
