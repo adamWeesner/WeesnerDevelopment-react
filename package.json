@@ -6,8 +6,6 @@
     "npm": "6.13.1"
   },
   "private": true,
-  "main": "index.js",
-  "type": "module",
   "dependencies": {
     "@material-ui/core": "^4.4.2",
     "@material-ui/icons": "^4.4.1",
