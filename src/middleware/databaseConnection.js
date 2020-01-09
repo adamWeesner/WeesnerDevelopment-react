@@ -11,7 +11,8 @@ async function addItem(itemType, info) {
     let request = await fetch(`${BACKEND_BASE_URL}/${itemType}`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": BACKEND_BASE_URL
         },
         body: JSON.stringify(info)
     })
@@ -28,7 +29,6 @@ async function readAll() {
 }
 
 async function readAllType(itemType) {
-    console.log(process.env.NODE_ENV, BACKEND_BASE_URL)
     let request = await fetch(`${BACKEND_BASE_URL}/${itemType}`)
     return await request.json()
 }
