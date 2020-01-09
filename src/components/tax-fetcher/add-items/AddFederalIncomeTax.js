@@ -2,18 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
-import { Dialog, DialogContent, Button } from '@material-ui/core'
+import { Dialog, DialogContent } from '@material-ui/core'
 import { DialogTitle } from '@material-ui/core'
-import CustomTextField from '../../CustomTextField'
+import TextField from '../../WDTextField'
+import Button from '../../WDButton'
 import { years, maritalStatuses, payPeriods, currentYear } from '../../../utils/utils'
 import { addItem, backendUrls } from '../../../middleware/databaseConnection'
 
 const styles = theme => ({
-    textField: {
-        marginLeft: theme.spacing(),
-        marginRight: theme.spacing(),
-        maxWidth: 120
-    },
     horizontal: {
         display: 'flex',
         minWidth: 450
@@ -21,11 +17,6 @@ const styles = theme => ({
     formControl: {
         margin: theme.spacing(),
         minWidth: 120,
-    },
-    button: {
-        marginTop: 20,
-        marginLeft: theme.spacing(),
-        marginBottom: theme.spacing(),
     },
 })
 
@@ -80,12 +71,11 @@ class AddFederalIncomeTax extends Component {
     }
 
     createText = (item, name, label, money) => {
-        return <CustomTextField
+        return <TextField
             item={item}
             name={name}
             label={label}
             money={money}
-            className={this.props.classes.textField}
             handleChange={this.handleChange(name)} />
     }
 
@@ -146,13 +136,9 @@ class AddFederalIncomeTax extends Component {
                         {this.createText(nonTaxable, 'nonTaxable', 'Non Taxable', true)}
                     </div>
                     <Button
-                        variant='contained'
-                        color='primary'
-                        className={classes.button}
-                        onClick={this.addToServer}
-                    >
-                        Save
-                    </Button>
+                        text='save'
+                        click={this.addToServer}
+                    />
                 </DialogContent>
             </Dialog>
         )

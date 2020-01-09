@@ -1,22 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Card, CardContent, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
+import Card from '../../WDCard'
 import { Currency, payPeriods } from '../../../utils/utils';
-
-const styles = theme => ({
-    center: {
-        display: 'flex',
-        justifyContent: 'center'
-    },
-    card: {
-        marginBottom: theme.spacing() * 3,
-        marginLeft: theme.spacing() * 1.5,
-        marginRight: theme.spacing() * 1.5,
-        marginEnd: theme.spacing() * 3,
-        width: 325
-    },
-})
 
 class ItemFederalncomeTax extends Component {
     keyStart = this.props.data.year + this.props.data.percent
@@ -65,7 +51,7 @@ class ItemFederalncomeTax extends Component {
     }
 
     render() {
-        const { classes, data, type } = this.props
+        const { data, type } = this.props
 
         const sortedData = data.sort((a, b) => {
             if (a.percent < b.percent) return -1
@@ -83,19 +69,13 @@ class ItemFederalncomeTax extends Component {
         })
 
         return (
-            <div className={classes.center}>
-                <Card className={classes.card}>
-                    <CardContent>
-                        <div>
-                            <Typography variant='h5' align='center'>
-                                {type}
-                            </Typography>
+            <Card>
+                <Typography variant='h5' align='center'>
+                    {type}
+                </Typography>
 
-                            {this.displaySortedData(periodSorted)}
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+                {this.displaySortedData(periodSorted)}
+            </Card>
         )
     }
 }
@@ -105,4 +85,4 @@ ItemFederalncomeTax.propTypes = {
     type: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(ItemFederalncomeTax)
+export default ItemFederalncomeTax

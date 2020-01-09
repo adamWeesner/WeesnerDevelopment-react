@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Button, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
+
+import Button from '../WDButton'
 
 import ItemMedicare from './read-items/ItemMedicare'
 import ItemSocialSecurity from './read-items/ItemSocialSecurity'
@@ -13,16 +15,11 @@ import AddSocialSecurity from './add-items/AddSocialSecurity'
 import AddTaxWithholding from './add-items/AddTaxWithholding'
 import ItemFederalIncomeTax from './read-items/ItemFederalIncomeTax'
 
-const styles = theme => ({
+const styles = () => ({
     horizontal: {
         display: 'flex',
         justifyContent: 'center',
         minWidth: 400
-    },
-    button: {
-        marginTop: theme.spacing() * 3,
-        marginLeft: theme.spacing() * 3,
-        marginBottom: theme.spacing(),
     },
 })
 
@@ -81,10 +78,10 @@ class TaxItemContainer extends Component {
                             break
                         }
 
-                        if (item.year === years[y][0].year){
+                        if (item.year === years[y][0].year) {
                             years[y].push(item)
                             break
-                        }else if (y === years.length - 1){
+                        } else if (y === years.length - 1) {
                             years[years.length] = [item]
                             break
                         }
@@ -192,21 +189,17 @@ class TaxItemContainer extends Component {
     }
 
     render() {
-        const { classes, type, taxData } = this.props
+        const { type, taxData } = this.props
 
         const typeData = taxData[type]
 
         return (
             <div>
                 <Button
-                    key={ typeData }
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    onClick={this.dialogOpen}
-                >
-                    Add New
-                </Button>
+                    key={typeData}
+                    text='Add New'
+                    click={this.dialogOpen}
+                />
 
                 {this.displayYearData(typeData)}
                 {this.displayAddItem()}

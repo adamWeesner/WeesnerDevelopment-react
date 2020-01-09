@@ -1,4 +1,4 @@
-const BACKEND_BASE_URL = window.location.hostname === "localhost" ? "http://0.0.0.0:23567" : "http://api.weesnerDevelopment.com"
+const BACKEND_BASE_URL = "http://api.weesnerDevelopment.com"
 
 const backendUrls = {
     FederalIncomeTax: "federalIncomeTax",

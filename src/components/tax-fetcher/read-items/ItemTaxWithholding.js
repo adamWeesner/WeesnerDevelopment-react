@@ -1,21 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Card, CardContent, Typography } from '@material-ui/core'
-import { Currency } from '../../../utils/utils';
-
-const styles = theme => ({
-    center: {
-        display: 'flex',
-        justifyContent: 'center'
-    },
-    card: {
-        marginBottom: theme.spacing() * 3,
-        marginLeft: theme.spacing() * 3,
-        marginEnd: theme.spacing() * 3,
-        width: 275
-    },
-})
+import { Typography } from '@material-ui/core'
+import { Currency } from '../../../utils/utils'
+import Card from '../../WDCard'
 
 class ItemTaxWithholding extends Component {
     displaySortedData = (sortedData) => {
@@ -36,7 +23,7 @@ class ItemTaxWithholding extends Component {
     }
 
     render() {
-        const { classes, data, type } = this.props
+        const { data, type } = this.props
 
         const sortedData = data.sort((a, b) => {
             if (a.amount < b.amount) return -1
@@ -45,19 +32,13 @@ class ItemTaxWithholding extends Component {
         })
 
         return (
-            <div className={classes.center}>
-                <Card className={classes.card}>
-                    <CardContent>
-                        <div>
-                            <Typography variant='h5' align='center'>
-                                {type}
-                            </Typography>
+            <Card>
+                <Typography variant='h5' align='center'>
+                    {type}
+                </Typography>
 
-                            {this.displaySortedData(sortedData)}
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+                {this.displaySortedData(sortedData)}
+            </Card>
         )
     }
 }
@@ -67,4 +48,4 @@ ItemTaxWithholding.propTypes = {
     type: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(ItemTaxWithholding)
+export default ItemTaxWithholding

@@ -1,20 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Card, CardContent, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import { Currency, maritalStatuses } from '../../../utils/utils'
-
-const styles = theme => ({
-    center: {
-        display: 'flex',
-        justifyContent: 'center'
-    },
-    card: {
-        marginBottom: theme.spacing() * 3,
-        marginLeft: theme.spacing() * 3,
-        marginEnd: theme.spacing() * 3
-    },
-})
+import Card from '../../WDCard'
 
 class ItemMedicare extends Component {
     limits = (data) => {
@@ -43,29 +31,23 @@ class ItemMedicare extends Component {
     }
 
     render() {
-        const { classes, data } = this.props
+        const { data } = this.props
 
         const itemData = data[0]
 
         return (
-            <div className={classes.center}>
-                <Card className={classes.card}>
-                    <CardContent>
-                        <div>
-                            <Typography variant='h6'>
-                                Percent: {itemData.percent}%
+            <Card>
+                <Typography variant='h6'>
+                    Percent: {itemData.percent}%
                             </Typography>
-                            <Typography variant='h6'>
-                                Additional: {itemData.additionalPercent}%
+                <Typography variant='h6'>
+                    Additional: {itemData.additionalPercent}%
                             </Typography>
-                            <Typography align='center' variant='h6'>
-                                Limits
+                <Typography align='center' variant='h6'>
+                    Limits
                             </Typography>
-                            {this.limits(itemData)}
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+                {this.limits(itemData)}
+            </Card>
         )
     }
 }
@@ -74,4 +56,4 @@ ItemMedicare.propTypes = {
     data: PropTypes.array.isRequired
 }
 
-export default withStyles(styles)(ItemMedicare)
+export default ItemMedicare
