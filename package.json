@@ -1,6 +1,12 @@
+// "homepage": "https://adamWeesner.github.io/WeesnerDevelopment-react",
+// "predeploy": "npm run build",
+// "deploy": "NODE_ENV=production gh-pages -d build"
 {
-  "name": "WeesnerDevelopment-react",
-  "homepage": "https://adamWeesner.github.io/WeesnerDevelopment-react",
+  "name": "weesnerdevelopment",
+  "engines": {
+    "node": "13.3.0",
+    "npm": "6.13.1"
+  },
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -17,8 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "NODE_ENV=production gh-pages -d build"
+    "postinstall": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
