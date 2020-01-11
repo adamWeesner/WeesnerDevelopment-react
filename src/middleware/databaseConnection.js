@@ -1,4 +1,4 @@
-const BACKEND_BASE_URL = process.env.NODE_ENV === 'production' ? "http://api.weesnerDevelopment.com" : "http://0.0.0.0:23567"
+const BACKEND_BASE_URL = process.env.NODE_ENV !== 'production' ? "http://api.weesnerDevelopment.com" : "http://0.0.0.0:23567"
 
 const backendUrls = {
     FederalIncomeTax: "federalIncomeTax",
@@ -12,7 +12,6 @@ async function addItem(itemType, info) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": BACKEND_BASE_URL
         },
         body: JSON.stringify(info)
     })
