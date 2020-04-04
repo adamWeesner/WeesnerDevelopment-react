@@ -31,7 +31,7 @@ class AddFederalIncomeTax extends Component {
     state = stateDefault
 
     addToServer = () => {
-        addItem(backendUrls.TaxWithholding, {
+        addItem(backendUrls.TaxFetcher.TaxWithholding, {
             year: Number(this.state.year),
             type: this.state.type,
             payPeriod: this.state.payPeriod,

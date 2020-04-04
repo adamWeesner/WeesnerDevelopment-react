@@ -69,7 +69,7 @@ class TaxItemContainer extends Component {
         if (data !== undefined) {
             let years = []
 
-            data[0].forEach(item => {
+            data.forEach(item => {
                 if (years.length === 0) {
                     years[0] = [item]
                 } else {

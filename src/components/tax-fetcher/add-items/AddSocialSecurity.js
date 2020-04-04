@@ -30,7 +30,7 @@ class AddSocialSecurity extends Component {
     state = stateDefault
 
     addToServer = () => {
-        addItem(backendUrls.SocialSecurity, {
+        addItem(backendUrls.TaxFetcher.SocialSecurity, {
             year: Number(this.state.year),
             percent: Number(this.state.percent),
             limit: Number(this.state.limit.replace(',', ''))

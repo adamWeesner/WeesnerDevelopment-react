@@ -38,7 +38,7 @@ class AddMedicare extends Component {
     state = stateDefault
 
     addToServer = () => {
-        addItem(backendUrls.Medicare, {
+        addItem(backendUrls.TaxFetcher.Medicare, {
             year: Number(this.state.year),
             percent: Number(this.state.percent),
             additionalPercent: Number(this.state.additional),

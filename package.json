@@ -9,13 +9,15 @@
   "dependencies": {
     "@material-ui/core": "^4.4.2",
     "@material-ui/icons": "^4.4.1",
+    "env-cmd": "^10.0.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-number-format": "^4.2.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.3.0"
+    "react-scripts": "^3.4.1"
   },
   "scripts": {
+    "dev_start": "npm start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -37,7 +39,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "gh-pages": "^2.2.0"
-  }
+  "devDependencies": {}
 }

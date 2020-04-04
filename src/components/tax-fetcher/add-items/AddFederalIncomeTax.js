@@ -41,7 +41,7 @@ class AddFederalIncomeTax extends Component {
         else
             notOverAdj = Number(this.state.notOver.replace(',', ''))
 
-        addItem(backendUrls.FederalIncomeTax, {
+        addItem(backendUrls.TaxFetcher.FederalIncomeTax, {
             year: Number(this.state.year),
             maritalStatus: this.state.maritalStatus,
             payPeriod: this.state.payPeriod,

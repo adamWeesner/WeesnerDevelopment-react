@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { AppBar, Tabs, Tab } from '@material-ui/core'
 import { items, organizeTaxData } from '../../utils/utils'
 import TaxItemContainer from './TaxItemContainer'
+import Login from '../auth/Login'
 import { readAll } from '../../middleware/databaseConnection'
 
 const styles = theme => ({
@@ -16,7 +17,15 @@ class PageTaxFetcher extends Component {
     state = {
         selectedTab: 1,
         taxesNeedUpdate: false,
-        taxData: []
+        taxData: [],
+        dialogOpen: false,
+    }
+
+    dialogClose = () => {
+        this.setState({
+            dialogOpen: false,
+            taxesNeedUpdate: true
+        })
     }
 
     updateTaxes = () => {
@@ -33,10 +42,19 @@ class PageTaxFetcher extends Component {
     }
 
     fetchTaxData = async () => {
-        this.setState({
-            taxesNeedUpdate: false,
-            taxData: organizeTaxData(await readAll())
-        })
+        const readData = await readAll()
+
+        if (readData.medicare.statusCode && readData.medicare.statusCode === 401) {
+            this.setState({
+                dialogOpen: true,
+                taxesNeedUpdate: false,
+            })
+        } else {
+            this.setState({
+                taxesNeedUpdate: false,
+                taxData: organizeTaxData(readData)
+            })
+        }
     }
 
     componentDidMount = () => {
@@ -46,7 +64,7 @@ class PageTaxFetcher extends Component {
 
     render() {
         const { classes } = this.props
-        const { selectedTab, taxData, taxesNeedUpdate } = this.state
+        const { selectedTab, taxData, taxesNeedUpdate, dialogOpen } = this.state
 
         if (taxesNeedUpdate)
             this.fetchTaxData()
@@ -59,13 +77,10 @@ class PageTaxFetcher extends Component {
                         onChange={this.handleChange}
                         variant='scrollable'
                     >
-                        {
-                            items.map((item, i) =>
-                                <Tab label={item} key={i} />
-                            )
-                        }
+                        {items.map((item, i) => <Tab label={item} key={i} />)}
                     </Tabs>
                 </AppBar>
+                <Login open={dialogOpen} close={this.dialogClose} />
                 <TaxItemContainer
                     type={items[selectedTab]}
                     taxData={taxData}
