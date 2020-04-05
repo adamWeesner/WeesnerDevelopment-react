@@ -36,6 +36,7 @@ class SignUp extends Component {
         const received = await signUp(name, email, username, password)
         console.log(received)
         this.setState(stateDefault)
+        window.location.reload()
         this.props.close()
     }
 

@@ -35,6 +35,7 @@ class Login extends Component {
         const { username, password } = this.state
         await login(username, password)
         this.setState(stateDefault)
+        window.location.reload()
         this.props.close()
     }
 

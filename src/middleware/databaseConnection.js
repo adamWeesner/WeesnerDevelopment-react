@@ -20,6 +20,8 @@ const getToken = () => window.localStorage.getItem('token')
 
 const setToken = (token) => window.localStorage.setItem('token', token)
 
+const deleteToken = () => window.localStorage.removeItem('token')
+
 const buildHeaders = () => {
     let fetchHeaders = {
         "Content-Type": "application/json",
@@ -71,12 +73,18 @@ const readAll = async () => {
 }
 
 const readAllType = async (itemType) => {
-    const getItem = await fetch(`${BASE_URL}/${itemType}`, {
-        method: "GET",
-        headers: buildHeaders(),
-    })
+    try {
+        const getItem = await fetch(`${BASE_URL}/${itemType}`, {
+            method: "GET",
+            headers: buildHeaders(),
+        })
 
-    return await getItem.json()
+        if(getItem.status == 401) deleteToken()
+
+        return await getItem.json()
+    } catch (e) {
+        return null
+    }
 }
 
 const login = async (username, password) => {
@@ -111,11 +119,37 @@ const signUp = async (name, email, username, password) => {
     return returned
 }
 
+const account = async () => {
+    try {
+        const getAccount = await fetch(`${BASE_URL}/${backendUrls.Auth.Account}`, {
+            method: "GET",
+            headers: buildHeaders(),
+        })
+
+        const userInfo = await getAccount.json()
+
+        return {
+            name: userInfo.name,
+            username: atob(userInfo.username),
+            email: userInfo.email,
+        }
+    } catch (e) {
+        return null
+    }
+}
+
+const logout = () => {
+    deleteToken()
+}
+
 export {
     backendUrls,
     addItem,
     readAll,
     readAllType,
     login,
-    signUp
+    signUp,
+    account,
+    logout,
+    getToken
 }
