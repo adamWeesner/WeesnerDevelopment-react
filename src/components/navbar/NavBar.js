@@ -4,11 +4,12 @@ import { Link, Route, BrowserRouter, Switch } from 'react-router-dom'
 import { AppBar, Toolbar, CssBaseline, Typography, Button } from '@material-ui/core'
 import { Drawer, List, ListItem, ListItemText } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import PageTrackYourTime from './PageTrackYourTime'
-import PageTaxFetcher from './tax-fetcher/PageTaxFetcher'
-import { getToken } from '../middleware/databaseConnection'
-import Login from '../components/auth/Login'
-import Account from '../components/auth/Account'
+import PageTrackYourTime from '../PageTrackYourTime'
+import PageTaxFetcher from '../tax-fetcher/PageTaxFetcher'
+import { getToken } from '../../middleware/databaseConnection'
+import Login from '../auth/login/Login'
+import SignUp from '../auth/signup/SignUp'
+import Account from '../auth/account/Account'
 
 const drawerWidth = 160
 
@@ -44,18 +45,77 @@ class NavBar extends Component {
     state = {
         dialogLoginOpen: false,
         dialogAccountOpen: false,
+        dialogSignUpOpen: false,
     }
 
     dialogLoginVisible = () => this.setState({ dialogLoginOpen: true })
     dialogLoginGone = () => this.setState({ dialogLoginOpen: false })
     dialogAccountVisible = () => this.setState({ dialogAccountOpen: true })
     dialogAccountGone = () => this.setState({ dialogAccountOpen: false })
+    dialogSignUpVisible = () => this.setState({ 
+        dialogLoginOpen: false,
+        dialogSignUpOpen: true
+     })
+    dialogSignUpGone = () => this.setState({ dialogSignUpOpen: false })
 
     authClick = () => {
-        if (getToken()) {
+        const { dialogSignUpOpen } = this.state
+        if (getToken())
             this.dialogAccountVisible()
-        } else {
+        else if(!dialogSignUpOpen)
             this.dialogLoginVisible()
+    }
+
+    updateDialog = () => {
+        const { dialogLoginOpen, dialogAccountOpen, dialogSignUpOpen } = this.state
+
+        console.log(this.state)
+
+        if (dialogLoginOpen)
+            return (<Login open={dialogLoginOpen} close={this.dialogLoginGone} signUp={this.dialogSignUpVisible} />)
+
+        if (dialogSignUpOpen)
+            return (<SignUp open={dialogSignUpOpen} close={this.dialogSignUpGone} />)
+
+        if (dialogAccountOpen)
+            return (<Account open={dialogAccountOpen} close={this.dialogAccountGone} />)
+
+    }
+
+    updateDrawer = () => {
+        if (getToken()) {
+            const { classes } = this.props
+            return (
+                <Drawer
+                    variant='permanent'
+                    className={classes.drawer}
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}>
+                    <div className={classes.toolbar} />
+                    <List>
+                        <ListItem button key='track-your-time' component={Link} to='/track-your-time'>
+                            <ListItemText primary='Track Your Time' />
+                        </ListItem>
+                        <ListItem button key='tax-fetcher' component={Link} to='/tax-fetcher'>
+                            <ListItemText primary='Tax Fetcher' />
+                        </ListItem>
+                    </List>
+                </Drawer>
+            )
+        }
+    }
+
+    updateTabs = () => {
+        if (getToken()) {
+            const { classes } = this.props
+            return (<div className={classes.content}>
+                <div className={classes.toolbar} />
+                <Switch>
+                    <Route path='/track-your-time' component={PageTrackYourTime} />
+                    <Route path='/tax-fetcher' component={PageTaxFetcher} />
+                </Switch>
+            </div>)
         }
     }
 
@@ -63,16 +123,6 @@ class NavBar extends Component {
         if (getToken() == null) {
             this.dialogLoginVisible()
         }
-    }
-
-    updateDialog = () => {
-        const { dialogLoginOpen, dialogAccountOpen } = this.state
-
-        if (dialogLoginOpen)
-            return (<Login open={dialogLoginOpen} close={this.dialogLoginGone} />)
-
-        if (dialogAccountOpen)
-            return (<Account open={dialogAccountOpen} close={this.dialogAccountGone} />)
     }
 
     render() {
@@ -95,31 +145,8 @@ class NavBar extends Component {
                         </Button>
                     </Toolbar>
                 </AppBar>
-                <Drawer
-                    style={{ visibility: getToken() ? 'visible' : 'collapse' }}
-                    variant='permanent'
-                    className={classes.drawer}
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}>
-                    <div className={classes.toolbar} />
-                    <List>
-                        <ListItem button key='track-your-time' component={Link} to='/track-your-time'>
-                            <ListItemText primary='Track Your Time' />
-                        </ListItem>
-                        <ListItem button key='tax-fetcher' component={Link} to='/tax-fetcher'>
-                            <ListItemText primary='Tax Fetcher' />
-                        </ListItem>
-                    </List>
-                </Drawer>
-
-                <div className={classes.content} style={{ visibility: getToken() ? 'visible' : 'collapse' }}>
-                    <div className={classes.toolbar} />
-                    <Switch>
-                        <Route path='/track-your-time' component={PageTrackYourTime} />
-                        <Route path='/tax-fetcher' component={PageTaxFetcher} />
-                    </Switch>
-                </div>
+                {this.updateDrawer()}
+                {this.updateTabs()}
             </div>
             {this.updateDialog()}
         </BrowserRouter >)

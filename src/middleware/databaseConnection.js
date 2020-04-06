@@ -79,7 +79,7 @@ const readAllType = async (itemType) => {
             headers: buildHeaders(),
         })
 
-        if(getItem.status == 401) deleteToken()
+        if(getItem.status === 401) deleteToken()
 
         return await getItem.json()
     } catch (e) {
