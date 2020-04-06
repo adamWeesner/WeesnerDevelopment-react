@@ -1,9 +1,11 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+
+import { layout } from './LoginLayout'
+
 import { login } from '../../../middleware/databaseConnection'
 import { styles } from '../../../styles/authStyles'
-import { layout } from './LoginLayout'
 
 const stateDefault = {
     username: "",

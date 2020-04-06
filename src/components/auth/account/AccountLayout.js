@@ -1,7 +1,9 @@
 import React from 'react'
 import { Dialog, DialogContent, Typography } from '@material-ui/core'
 import { DialogTitle } from '@material-ui/core'
+
 import Button from '../../WDButton'
+import Account from './Account'
 
 const layout = (userInfo, methods, classes) =>
     <Dialog open={methods.open} onClose={methods.close} aria-labelledby='account'>
@@ -34,6 +36,10 @@ const layout = (userInfo, methods, classes) =>
         </DialogContent>
     </Dialog>
 
+const view = (open, close) =>
+    <Account open={open} close={close} />
+
 export {
     layout,
+    view
 }

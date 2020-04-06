@@ -1,7 +1,10 @@
 import React from 'react'
 import { Dialog, DialogContent } from '@material-ui/core'
 import { DialogTitle } from '@material-ui/core'
+
+import Login from './Login'
 import Button from '../../WDButton'
+
 import { createTextField } from '../authUtils'
 
 const layout = (userInfo, methods, classes) =>
@@ -27,6 +30,11 @@ const layout = (userInfo, methods, classes) =>
         </DialogContent>
     </Dialog>
 
+const view = (open, gone, signUpVisible) =>
+    <Login open={open} close={gone} signUp={signUpVisible} />
+
+
 export {
     layout,
+    view
 }
