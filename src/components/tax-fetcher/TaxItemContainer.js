@@ -8,12 +8,12 @@ import Button from '../WDButton'
 import ItemMedicare from './read-items/ItemMedicare'
 import ItemSocialSecurity from './read-items/ItemSocialSecurity'
 import ItemTaxWithholding from './read-items/ItemTaxWithholding'
-import AddFederalIncomeTax from './add-items/AddFederalIncomeTax'
+import AddFederalIncomeTax from './federalIncomeTax/AddFederalIncomeTax'
 
 import AddMedicare from './add-items/AddMedicare'
 import AddSocialSecurity from './add-items/AddSocialSecurity'
 import AddTaxWithholding from './add-items/AddTaxWithholding'
-import ItemFederalIncomeTax from './read-items/ItemFederalIncomeTax'
+import ItemFederalIncomeTax from './federalIncomeTax/ItemFederalIncomeTax'
 
 const styles = () => ({
     horizontal: {

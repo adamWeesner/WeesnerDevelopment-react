@@ -5,7 +5,7 @@ import { DialogTitle } from '@material-ui/core'
 import Login from './Login'
 import Button from '../../WDButton'
 
-import { createTextField } from '../authUtils'
+import { createTextField } from '../utils'
 
 const layout = (userInfo, methods, classes) =>
     <Dialog open={methods.open} onClose={methods.close} aria-labelledby='login'>
