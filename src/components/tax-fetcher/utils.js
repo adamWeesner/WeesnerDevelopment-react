@@ -16,7 +16,7 @@ const createFormControl = (item, name, label, classes, handleChange, getItems) =
     return <FormControl className={classes.formControl}>
         <InputLabel>
             {label}
-        </InputLabel>
+        </InputLabel>  
         <Select
             value={item}
             onChange={handleChange(`${name}`)}

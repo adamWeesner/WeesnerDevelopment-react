@@ -5,15 +5,15 @@ import { Typography } from '@material-ui/core'
 
 import Button from '../WDButton'
 
+import ItemFederalIncomeTax from './federalIncomeTax/ItemFederalIncomeTax'
 import ItemMedicare from './read-items/ItemMedicare'
 import ItemSocialSecurity from './read-items/ItemSocialSecurity'
 import ItemTaxWithholding from './read-items/ItemTaxWithholding'
-import AddFederalIncomeTax from './federalIncomeTax/AddFederalIncomeTax'
 
-import AddMedicare from './add-items/AddMedicare'
+import AddFederalIncomeTax from './federalIncomeTax/AddFederalIncomeTax'
+import AddMedicare from './medicare/AddMedicare'
 import AddSocialSecurity from './add-items/AddSocialSecurity'
 import AddTaxWithholding from './add-items/AddTaxWithholding'
-import ItemFederalIncomeTax from './federalIncomeTax/ItemFederalIncomeTax'
 
 const styles = () => ({
     horizontal: {
