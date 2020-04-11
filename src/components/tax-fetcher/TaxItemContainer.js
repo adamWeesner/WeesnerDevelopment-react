@@ -6,7 +6,7 @@ import { Typography } from '@material-ui/core'
 import Button from '../WDButton'
 
 import ItemFederalIncomeTax from './federalIncomeTax/ItemFederalIncomeTax'
-import ItemMedicare from './read-items/ItemMedicare'
+import ItemMedicare from './medicare/ItemMedicare'
 import ItemSocialSecurity from './read-items/ItemSocialSecurity'
 import ItemTaxWithholding from './read-items/ItemTaxWithholding'
 

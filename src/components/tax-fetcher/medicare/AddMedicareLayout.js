@@ -9,18 +9,18 @@ import { createText } from '../utils'
 import { years } from '../../../utils/utils'
 
 const layout = (methods, state, classes) => {
-    const { year, percent, additional, limitMarried, limitSeparated, limitOther } = state
+    const { year, percent, additionalPercent, limitMarried, limitSeparated, limitOther } = state
 
     return (
         <Dialog open={methods.open} onClose={methods.close} aria-labelledby='add-new-medicare'>
             <DialogTitle id='add-new-medicare'>
                 Add New Medicare
-                </DialogTitle>
+            </DialogTitle>
             <DialogContent>
                 <FormControl className={classes.formControl}>
                     <InputLabel>
                         Year
-                            </InputLabel>
+                    </InputLabel>
                     <Select
                         value={year}
                         onChange={methods.handleChange('year')}
@@ -37,7 +37,7 @@ const layout = (methods, state, classes) => {
                 </FormControl>
                 <div className={classes.horizontal}>
                     {createText(percent, 'percent', 'Percent', false, methods.handleChange)}
-                    {createText(additional, 'additional', 'Additional', false, methods.handleChange)}
+                    {createText(additionalPercent, 'additionalPercent', 'Additional', false, methods.handleChange)}
                 </div>
                 <Typography className={classes.typography}>Limits</Typography>
                 <div className={classes.horizontal}>
@@ -56,5 +56,5 @@ const layout = (methods, state, classes) => {
 }
 
 export {
-    layout
+    layout,
 }

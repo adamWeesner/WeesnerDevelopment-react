@@ -10,38 +10,39 @@ import { styles } from '../../../styles/taxFetcherStyles'
 import { currentYear, maritalStatuses } from '../../../utils/utils'
 import { addItem, backendUrls } from '../../../middleware/databaseConnection'
 
-const stateDefault = new Medicare(
-    currentYear,
-    "1.45",
-    "0.9",
-    undefined,
-    undefined,
-    undefined
-)
+const stateDefault = {
+    year: currentYear,
+    percent: "1.45",
+    additionalPercent: "0.9",
+    limitMarried: undefined,
+    limitOther: undefined,
+    limitSeparated: undefined,
+}
 
 class AddMedicare extends Component {
     state = stateDefault
 
     addToServer = () => {
+        console.log("state", this.state)
         addItem(backendUrls.TaxFetcher.Medicare, new Medicare(
             Number(this.state.year),
             Number(this.state.percent),
-            Number(this.state.additional),
+            Number(this.state.additionalPercent),
             [
                 {
                     year: Number(this.state.year),
                     amount: Number(this.state.limitMarried.replace(',', '')),
-                    maritalStatus: `${maritalStatuses.Married}`
+                    maritalStatus: `${maritalStatuses.Married.name}`
                 },
                 {
                     year: Number(this.state.year),
                     amount: Number(this.state.limitSeparated.replace(',', '')),
-                    maritalStatus: `${maritalStatuses.Separate}`
+                    maritalStatus: `${maritalStatuses.Separate.name}`
                 },
                 {
                     year: Number(this.state.year),
                     amount: Number(this.state.limitOther.replace(',', '')),
-                    maritalStatus: `${maritalStatuses.Single}`
+                    maritalStatus: `${maritalStatuses.Single.name}`
                 }
             ]
         )).then(_ => {
