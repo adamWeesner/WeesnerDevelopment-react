@@ -80,8 +80,8 @@ const maritalStatuses = Object.freeze({
 })
 
 const withholdingTypes = Object.freeze({
-    General: 'General',
-    NonResident: 'NonResident'
+    General: { index: 0, name: 'General' },
+    NonResident: { index: 1, name: 'NonResident' }
 })
 
 const payPeriods = Object.freeze({

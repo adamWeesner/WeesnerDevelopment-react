@@ -13,7 +13,7 @@ import ItemTaxWithholding from './read-items/ItemTaxWithholding'
 import AddFederalIncomeTax from './federalIncomeTax/AddFederalIncomeTax'
 import AddMedicare from './medicare/AddMedicare'
 import AddSocialSecurity from './socialSecurity/AddSocialSecurity'
-import AddTaxWithholding from './add-items/AddTaxWithholding'
+import AddTaxWithholding from './taxWithholding/AddTaxWithholding'
 
 import { styles } from '../../styles/taxFetcherStyles'
 
