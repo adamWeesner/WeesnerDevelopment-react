@@ -12,7 +12,7 @@ import ItemTaxWithholding from './read-items/ItemTaxWithholding'
 
 import AddFederalIncomeTax from './federalIncomeTax/AddFederalIncomeTax'
 import AddMedicare from './medicare/AddMedicare'
-import AddSocialSecurity from './add-items/AddSocialSecurity'
+import AddSocialSecurity from './socialSecurity/AddSocialSecurity'
 import AddTaxWithholding from './add-items/AddTaxWithholding'
 
 const styles = () => ({
