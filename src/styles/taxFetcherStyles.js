@@ -1,4 +1,8 @@
 const styles = theme => ({
+    root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+    },
     horizontal: {
         display: 'flex',
         minWidth: 450

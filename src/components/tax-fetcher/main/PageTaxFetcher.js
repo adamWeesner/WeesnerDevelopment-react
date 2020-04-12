@@ -1,16 +1,11 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { AppBar, Tabs, Tab } from '@material-ui/core'
-import { items, organizeTaxData } from '../../utils/utils'
-import TaxItemContainer from './TaxItemContainer'
-import { readAll } from '../../middleware/databaseConnection'
 
-const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-    },
-})
+import { layout } from './PageTaxFetcherLayout'
+
+import { styles } from '../../../styles/taxFetcherStyles'
+import { organizeTaxData } from '../../../utils/utils'
+import { readAll } from '../../../middleware/databaseConnection'
 
 class PageTaxFetcher extends Component {
     state = {
@@ -60,23 +55,12 @@ class PageTaxFetcher extends Component {
         if (taxesNeedUpdate)
             this.fetchTaxData()
 
-        return (
-            <div className={classes.root}>
-                <AppBar position='static' elevation={0}>
-                    <Tabs
-                        value={selectedTab}
-                        onChange={this.handleChange}
-                        variant='scrollable'
-                    >
-                        {items.map((item, i) => <Tab label={item} key={i} />)}
-                    </Tabs>
-                </AppBar>
-                <TaxItemContainer
-                    type={items[selectedTab]}
-                    taxData={taxData}
-                    taxesNeedUpdate={this.updateTaxes} />
-            </div>
-        )
+        const methods = {
+            handleChange: this.handleChange,
+            updateTaxes: this.updateTaxes,
+        }
+
+        return layout(taxData, selectedTab, methods, classes)
     }
 }
 

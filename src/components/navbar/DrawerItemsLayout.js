@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import PageTaxFetcher from '../tax-fetcher/PageTaxFetcher'
+import PageTaxFetcher from '../tax-fetcher/main/PageTaxFetcher'
 import PageTrackYourTime from '../PageTrackYourTime'
 
 const layout = (classes) =>
