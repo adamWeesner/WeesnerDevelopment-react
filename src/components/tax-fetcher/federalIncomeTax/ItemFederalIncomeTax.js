@@ -37,18 +37,14 @@ class ItemFederalncomeTax extends Component {
         const { data, type } = this.props
 
         const sortedData = data.sort((a, b) => {
-            if (a.percent < b.percent) return -1
-            if (a.percent > b.percent) return 1
-            return 0
+            return a.percent - b.percent
         })
 
         const periodSorted = sortedData.sort((a, b) => {
             const aPeriod = payPeriods[a.payPeriod].index
             const bPeriod = payPeriods[b.payPeriod].index
 
-            if (aPeriod < bPeriod) return -1
-            if (aPeriod > bPeriod) return 1
-            return 0
+            return aPeriod - bPeriod
         })
 
         return layout(type, this.displaySortedData(periodSorted))

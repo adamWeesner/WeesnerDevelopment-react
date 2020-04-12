@@ -1,11 +1,10 @@
 import React from 'react'
-import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import { Dialog, DialogContent } from '@material-ui/core'
 import { DialogTitle, Typography } from '@material-ui/core'
 
 import Button from '../../WDButton'
 
-import { createText } from '../utils'
+import { createText, createDropDown } from '../utils'
 import { years } from '../../../utils/utils'
 
 const layout = (methods, state, classes) => {
@@ -17,24 +16,8 @@ const layout = (methods, state, classes) => {
                 Add New Medicare
             </DialogTitle>
             <DialogContent>
-                <FormControl className={classes.formControl}>
-                    <InputLabel>
-                        Year
-                    </InputLabel>
-                    <Select
-                        value={year}
-                        onChange={methods.handleChange('year')}
-                        name='year'
-                    >
-                        {
-                            years.map(item => {
-                                return <MenuItem key={item} value={item}>
-                                    {item}
-                                </MenuItem>
-                            })
-                        }
-                    </Select>
-                </FormControl>
+                {createDropDown(year, 'year', 'Year', years, classes, methods.handleChange)}
+
                 <div className={classes.horizontal}>
                     {createText(percent, 'percent', 'Percent', false, methods.handleChange)}
                     {createText(additionalPercent, 'additionalPercent', 'Additional', false, methods.handleChange)}
