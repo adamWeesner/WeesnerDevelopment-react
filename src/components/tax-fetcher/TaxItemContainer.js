@@ -7,7 +7,7 @@ import Button from '../WDButton'
 
 import ItemFederalIncomeTax from './federalIncomeTax/ItemFederalIncomeTax'
 import ItemMedicare from './medicare/ItemMedicare'
-import ItemSocialSecurity from './read-items/ItemSocialSecurity'
+import ItemSocialSecurity from './socialSecurity/ItemSocialSecurity'
 import ItemTaxWithholding from './read-items/ItemTaxWithholding'
 
 import AddFederalIncomeTax from './federalIncomeTax/AddFederalIncomeTax'
@@ -15,13 +15,7 @@ import AddMedicare from './medicare/AddMedicare'
 import AddSocialSecurity from './socialSecurity/AddSocialSecurity'
 import AddTaxWithholding from './add-items/AddTaxWithholding'
 
-const styles = () => ({
-    horizontal: {
-        display: 'flex',
-        justifyContent: 'center',
-        minWidth: 400
-    },
-})
+import { styles } from '../../styles/taxFetcherStyles'
 
 class TaxItemContainer extends Component {
     state = {
@@ -146,7 +140,7 @@ class TaxItemContainer extends Component {
                 for (const type in types)
                     items.push(this.displayFederalType(types[type]))
                 itemToDisplay = (
-                    <div className={this.props.classes.horizontal} key={data[0].year + "-federal-income-tax"}>
+                    <div className={this.props.classes.horizontalCenter} key={data[0].year + "-federal-income-tax"}>
                         {items}
                     </div>
                 )
@@ -176,7 +170,7 @@ class TaxItemContainer extends Component {
                 for (const type in types)
                     items.push(this.displayWithholdingType(types[type]))
                 itemToDisplay = (
-                    <div className={this.props.classes.horizontal} key={data[0].year + "-tax-withholding"}>
+                    <div className={this.props.classes.horizontalCenter} key={data[0].year + "-tax-withholding"}>
                         {items}
                     </div>
                 )

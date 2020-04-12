@@ -3,6 +3,11 @@ const styles = theme => ({
         display: 'flex',
         minWidth: 450
     },
+    horizontalCenter: {
+        display: 'flex',
+        justifyContent: 'center',
+        minWidth: 400
+    },
     formControl: {
         margin: theme.spacing(),
         minWidth: 120,
