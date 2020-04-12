@@ -1,7 +1,9 @@
 import React from 'react'
 import { Typography } from '@material-ui/core'
-import { Currency } from '../../../utils/utils'
+
 import Card from '../../WDCard'
+
+import { Currency } from '../../../utils/utils'
 
 const layout = (itemData) =>
     <Card>

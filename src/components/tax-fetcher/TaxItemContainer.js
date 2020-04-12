@@ -8,7 +8,7 @@ import Button from '../WDButton'
 import ItemFederalIncomeTax from './federalIncomeTax/ItemFederalIncomeTax'
 import ItemMedicare from './medicare/ItemMedicare'
 import ItemSocialSecurity from './socialSecurity/ItemSocialSecurity'
-import ItemTaxWithholding from './read-items/ItemTaxWithholding'
+import ItemTaxWithholding from './taxWithholding/ItemTaxWithholding'
 
 import AddFederalIncomeTax from './federalIncomeTax/AddFederalIncomeTax'
 import AddMedicare from './medicare/AddMedicare'
