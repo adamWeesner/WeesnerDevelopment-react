@@ -14,6 +14,11 @@ const styles = theme => ({
         marginBottom: -8,
         textDecoration: 'underline',
     },
+    typography: {
+        marginLeft: theme.spacing(),
+        marginTop: theme.spacing() * 2.5,
+        fontSize: 16
+    },
 })
 
 export {

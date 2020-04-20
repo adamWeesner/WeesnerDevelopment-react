@@ -1,4 +1,6 @@
-const BASE_URL = "http://192.168.0.30:8080"
+// const BASE_URL = '192.168.0.30'
+const BASE_URL = 'localhost'
+const HTTP_BASE_URL = `http://${BASE_URL}:8080`
 const auth = "user/"
 const taxFetcher = "taxFetcher/"
 
@@ -13,6 +15,9 @@ const backendUrls = {
         Login: `${auth}login`,
         Account: `${auth}account`,
         SignUp: `${auth}signUp`
+    },
+    Updates: {
+        All: `/updates`
     }
 }
 
@@ -37,20 +42,28 @@ const buildHeaders = () => {
     return fetchHeaders
 }
 
-const addItem = async (itemType, info) => {
-    const savedItems = await readAllType(itemType)
-    let alreadyInDB = null
-    if (savedItems.size > 0) {
-        await savedItems.forEach(item => {
-            if (info.year === item.year) {
-                alreadyInDB = item
-                return
-            }
-        })
+const getUpdates = () => {
+    const webSocket = new WebSocket(`wss://${BASE_URL}:8890`)
+    webSocket.onopen = (_) => {
+        console.log('web socket connection opened')
     }
 
-    const retrievedItem = await fetch(`${BASE_URL}/${itemType}`, {
-        method: alreadyInDB ? "PUT" : "POST",
+    webSocket.onmessage = (event) => {
+        console.log(`message received ${event.data}`)
+    }
+
+    webSocket.onerror = (event) => {
+        console.log(`web socket connection error ${event}`)
+    }
+
+    webSocket.onclose = (_) => {
+        console.log('web socket connection closed')
+    }
+}
+
+const addItem = async (itemType, info) => {
+    const retrievedItem = await fetch(`${HTTP_BASE_URL}/${itemType}`, {
+        method: "POST",
         headers: buildHeaders(),
         body: JSON.stringify(info),
     })
@@ -74,12 +87,12 @@ const readAll = async () => {
 
 const readAllType = async (itemType) => {
     try {
-        const getItem = await fetch(`${BASE_URL}/${itemType}`, {
+        const getItem = await fetch(`${HTTP_BASE_URL}/${itemType}`, {
             method: "GET",
             headers: buildHeaders(),
         })
 
-        if(getItem.status === 401) deleteToken()
+        if (getItem.status === 401) deleteToken()
 
         return await getItem.json()
     } catch (e) {
@@ -91,7 +104,7 @@ const login = async (username, password) => {
     const encryptedUser = btoa(username)
     const encryptedPass = btoa(password)
 
-    const getUser = await fetch(`${BASE_URL}/${backendUrls.Auth.Login}`, {
+    const getUser = await fetch(`${HTTP_BASE_URL}/${backendUrls.Auth.Login}`, {
         method: "POST",
         headers: buildHeaders(),
         body: JSON.stringify({ username: encryptedUser, password: encryptedPass })
@@ -99,7 +112,6 @@ const login = async (username, password) => {
 
     const returned = await getUser.json()
     setToken(returned.token)
-
     return returned
 }
 
@@ -107,7 +119,7 @@ const signUp = async (name, email, username, password) => {
     const encryptedUser = btoa(username)
     const encryptedPass = btoa(password)
 
-    const getUser = await fetch(`${BASE_URL}/${backendUrls.Auth.SignUp}`, {
+    const getUser = await fetch(`${HTTP_BASE_URL}/${backendUrls.Auth.SignUp}`, {
         method: "POST",
         headers: buildHeaders(),
         body: JSON.stringify({ name, email, username: encryptedUser, password: encryptedPass })
@@ -121,7 +133,7 @@ const signUp = async (name, email, username, password) => {
 
 const account = async () => {
     try {
-        const getAccount = await fetch(`${BASE_URL}/${backendUrls.Auth.Account}`, {
+        const getAccount = await fetch(`${HTTP_BASE_URL}/${backendUrls.Auth.Account}`, {
             method: "GET",
             headers: buildHeaders(),
         })

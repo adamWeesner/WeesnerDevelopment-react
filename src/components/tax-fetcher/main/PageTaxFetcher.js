@@ -27,20 +27,28 @@ class PageTaxFetcher extends Component {
             })
     }
 
+    checkItemForStatus = (item) => {
+        const itemData = item && item.statusCode && item.statusCode === 401
+        if (itemData) {
+            this.setState({
+                taxesNeedUpdate: false,
+            })
+            window.location.reload()
+        }
+    }
+
     fetchTaxData = async () => {
         const readData = await readAll()
+        const readDataKeys = Object.keys(readData)
 
-        if (readData.medicare && readData.medicare.statusCode && readData.medicare.statusCode === 401) {
-            this.setState({
-                dialogOpen: true,
-                taxesNeedUpdate: false,
-            })
-        } else {
-            this.setState({
-                taxesNeedUpdate: false,
-                taxData: organizeTaxData(readData)
-            })
+        for (let i = 0; i < readDataKeys.length; i++) {
+            this.checkItemForStatus(readData[readDataKeys[i]])
         }
+
+        this.setState({
+            taxesNeedUpdate: false,
+            taxData: organizeTaxData(readData)
+        })
     }
 
     componentDidMount = () => {

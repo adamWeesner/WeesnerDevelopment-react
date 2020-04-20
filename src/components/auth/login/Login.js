@@ -10,20 +10,30 @@ import { styles } from '../../../styles/authStyles'
 const stateDefault = {
     username: "",
     password: "",
+    invalidUser: false,
 }
 
 class Login extends Component {
     login = async () => {
         const { username, password } = this.state
-        await login(username, password)
-        this.setState(stateDefault)
-        window.location.reload()
-        this.props.close()
+        const loginData = await login(username, password)
+
+        if(loginData.reasonCode){
+            this.setState({
+                invalidUser: true,
+                password: ""
+            })
+        } else {
+            this.setState(stateDefault)
+            window.location.reload()
+            this.props.close()
+        }
     }
 
     handleChange = name => event => {
         this.setState({
             ...this.state,
+            invalidUser: false,
             [name]: event.target.value,
         });
     }
@@ -32,9 +42,9 @@ class Login extends Component {
 
     render = () => {
         const { classes, open, close, signUp } = this.props
-        const { username, password } = this.state
+        const { username, password, invalidUser } = this.state
 
-        const userInfo = { username, password }
+        const userInfo = { username, password, invalidUser }
         const methods = {
             open,
             close,
@@ -42,7 +52,6 @@ class Login extends Component {
             login: this.login,
             signUp
         }
-
 
         return layout(userInfo, methods, classes)
     }
